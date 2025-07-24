@@ -11,6 +11,8 @@ Projeto de jogo 2D de arrancada usando Phaser.js.
 ## Estrutura
 
 - `index.html` carrega o Phaser via CDN e o script principal.
-- `index.js` contém a configuração inicial do Phaser e um carro representado por um retângulo.
+- `scripts/` contém o código fonte do jogo.
+  - `index.js` inicializa o Phaser e registra as cenas.
+  - `scenes/` possui as cenas `Preload`, `Menu`, `Race` e `End`.
 
 Este projeto é um ponto de partida simples para evoluir o jogo de corrida.
