@@ -1,8 +1,9 @@
 # Drag Game
 
 Projeto de jogo 2D de arrancada usando Phaser.js.
-Agora os carros possuem um corpo com rodas que giram durante a corrida,
-tornando a experiência mais animada mesmo sem imagens externas.
+Os carros agora são montados a partir de imagens SVG do corpo e das rodas,
+o que deixa o visual mais parecido com carros reais sem depender de fotos.
+As rodas continuam girando conforme a velocidade.
 
 ## Desenvolvimento
 

@@ -16,8 +16,8 @@ export default class RaceScene extends Phaser.Scene {
     this.car = this.add.container(50, height / 2);
     const body = this.add.sprite(0, 0, 'carBody').setOrigin(0.5);
     body.setTint(carData.color);
-    this.frontWheel = this.add.sprite(40, 18, 'wheel').setOrigin(0.5);
-    this.backWheel = this.add.sprite(-40, 18, 'wheel').setOrigin(0.5);
+    this.frontWheel = this.add.sprite(50, 20, 'wheel').setOrigin(0.5);
+    this.backWheel = this.add.sprite(-50, 20, 'wheel').setOrigin(0.5);
     this.car.add([body, this.frontWheel, this.backWheel]);
 
     this.speed = 0;
