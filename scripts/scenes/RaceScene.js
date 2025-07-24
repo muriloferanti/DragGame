@@ -12,8 +12,14 @@ export default class RaceScene extends Phaser.Scene {
     this.distance = 0;
     this.startTime = this.time.now;
 
-    this.car = this.add.rectangle(50, height / 2, 60, 20, carData.color);
-    this.physics.add.existing(this.car);
+    // Container do carro com rodas
+    this.car = this.add.container(50, height / 2);
+    const body = this.add.sprite(0, 0, 'carBody').setOrigin(0.5);
+    body.setTint(carData.color);
+    this.frontWheel = this.add.sprite(50, 20, 'wheel').setOrigin(0.5);
+    this.backWheel = this.add.sprite(-50, 20, 'wheel').setOrigin(0.5);
+    this.car.add([body, this.frontWheel, this.backWheel]);
+
     this.speed = 0;
     const accelBonus = 1 + 0.1 * (ups.tires + ups.turbo);
     const speedBonus = 1 + 0.1 * ups.ecu;
@@ -37,6 +43,10 @@ export default class RaceScene extends Phaser.Scene {
     }
 
     this.car.x += this.speed * dt;
+    const wheelRadius = 16;
+    const angleDelta = (this.speed * dt) / wheelRadius;
+    this.frontWheel.rotation += angleDelta;
+    this.backWheel.rotation += angleDelta;
     this.distance += this.speed * dt;
 
     if (this.distance >= this.trackLength) {
