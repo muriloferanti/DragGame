@@ -2,6 +2,8 @@ import PreloadScene from './scenes/PreloadScene.js';
 import MenuScene from './scenes/MenuScene.js';
 import RaceScene from './scenes/RaceScene.js';
 import EndScene from './scenes/EndScene.js';
+import UpgradeScene from './scenes/UpgradeScene.js';
+import CarSelectScene from './scenes/CarSelectScene.js';
 
 const config = {
   type: Phaser.AUTO,
@@ -14,7 +16,7 @@ const config = {
       debug: false
     }
   },
-  scene: [PreloadScene, MenuScene, RaceScene, EndScene]
+  scene: [PreloadScene, MenuScene, RaceScene, EndScene, UpgradeScene, CarSelectScene]
 };
 
 const game = new Phaser.Game(config);
