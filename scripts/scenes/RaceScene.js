@@ -20,6 +20,24 @@ export default class RaceScene extends Phaser.Scene {
     this.backWheel = this.add.sprite(-50, 20, 'wheel').setOrigin(0.5);
     this.car.add([body, this.frontWheel, this.backWheel]);
 
+    const smokeGfx = this.add.graphics();
+    smokeGfx.fillStyle(0xffffff, 1);
+    smokeGfx.fillCircle(4, 4, 4);
+    smokeGfx.generateTexture('smoke', 8, 8);
+    smokeGfx.destroy();
+    this.smoke = this.add.particles('smoke');
+    this.smokeEmitter = this.smoke.createEmitter({
+      speed: { min: -40, max: -80 },
+      angle: { min: 160, max: 200 },
+      scale: { start: 0.5, end: 1 },
+      alpha: { start: 1, end: 0 },
+      lifespan: 600,
+      on: false
+    });
+    this.smokeEmitter.startFollow(this.backWheel);
+    this.skidTimer = 0;
+    this.skidActive = false;
+
     this.speed = 0;
     const accelBonus = 1 + 0.1 * (ups.tires + ups.turbo);
     const speedBonus = 1 + 0.1 * ups.ecu;
@@ -31,7 +49,12 @@ export default class RaceScene extends Phaser.Scene {
 
   update(time, delta) {
     const dt = delta / 1000;
-    if (this.cursors.space.isDown || this.cursors.up.isDown) {
+    if ((this.cursors.space.isDown || this.cursors.up.isDown)) {
+      if (this.speed === 0 && !this.skidActive) {
+        this.skidActive = true;
+        this.smokeEmitter.start();
+        this.skidTimer = 300;
+      }
       this.speed += this.acceleration * dt;
       if (this.speed > this.maxSpeed) this.speed = this.maxSpeed;
     } else if (this.cursors.down.isDown) {
@@ -45,8 +68,16 @@ export default class RaceScene extends Phaser.Scene {
     this.car.x += this.speed * dt;
     const wheelRadius = 16;
     const angleDelta = (this.speed * dt) / wheelRadius;
-    this.frontWheel.rotation += angleDelta;
-    this.backWheel.rotation += angleDelta;
+    let rotationDelta = angleDelta;
+    if (this.skidTimer > 0) {
+      rotationDelta *= 3;
+      this.skidTimer -= delta;
+      if (this.skidTimer <= 0) {
+        this.smokeEmitter.stop();
+      }
+    }
+    this.frontWheel.rotation += rotationDelta;
+    this.backWheel.rotation += rotationDelta;
     this.distance += this.speed * dt;
 
     if (this.distance >= this.trackLength) {
