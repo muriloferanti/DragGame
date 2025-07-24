@@ -3,11 +3,10 @@ export default class PreloadScene extends Phaser.Scene {
     super('preload');
   }
   preload() {
-    // Carrega ícones remotos para corpo e rodas do carro
-    this.load.image('carBody',
-      'https://img.icons8.com/fluency/128/car.png');
-    this.load.image('wheel',
-      'https://img.icons8.com/fluency/64/car-wheel.png');
+    // Carrega sprites locais para o corpo e as rodas do carro
+    // Usar arquivos locais evita falhas caso não haja acesso à internet
+    this.load.image('carBody', 'assets/sprites/car_body.svg');
+    this.load.image('wheel', 'assets/sprites/wheel.svg');
   }
   create() {
     this.scene.start('menu');
